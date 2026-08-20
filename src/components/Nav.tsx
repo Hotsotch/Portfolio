@@ -1,3 +1,4 @@
+import PictureFrame from "@/components/PictureFrame";
 import { navLinks, site } from "@/content/site";
 
 export default function Nav() {
@@ -37,6 +38,13 @@ export default function Nav() {
           </li>
         </ul>
       </nav>
+
+      <div className="pointer-events-none relative hidden 2xl:block">
+        <div className="absolute right-32 top-full z-40">
+          <PictureFrame />
+        </div>
+      </div>
+
       <div className="rule" />
     </header>
   );

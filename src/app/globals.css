@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  /* Color — light, paper-like, one accent */
-  --color-paper: #fbfbf9;
-  --color-ink: #14141a;
-  --color-muted: #74747e;
-  --color-rule: #e2e2dd;
-  --color-accent: #1d4ed8;
+  /* Color — palette: https://coolors.co/b9d8c2-9ac2c9-8aa1b1-4a5043-ffcb47 */
+  --color-paper: #f9fcfa;
+  --color-ink: #4a5043;
+  --color-muted: #5e6e78;
+  --color-rule: #e5eff2;
+  --color-accent: #ffcb47;
 
   /* Type — grotesk only, fluid scale */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
@@ -55,7 +55,7 @@ body {
 }
 
 .section {
-  padding-block: clamp(4rem, 10vw, 8rem);
+  padding-block: clamp(2.5rem, 6vw, 5rem);
 }
 
 .rule {
@@ -89,8 +89,34 @@ body {
   }
 }
 
+/* Typewriter cursor — used by the Typewriter component */
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 0.05em;
+  font-weight: 300;
+  color: var(--color-accent);
+  animation: typewriter-blink 1s step-end infinite;
+}
+
+@keyframes typewriter-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor {
+    animation: none;
+  }
+}
+
 /* Visible keyboard focus on a light background */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-ink);
   outline-offset: 3px;
 }

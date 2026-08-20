@@ -9,7 +9,7 @@ const links = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="shell section rule">
+    <section id="contact" className="shell section">
       <Reveal>
         <h2 className="text-label uppercase tracking-[0.12em] text-muted">
           Contact

@@ -3,7 +3,7 @@ import { site } from "@/content/site";
 
 export default function Skills() {
   return (
-    <section id="skills" className="shell section rule">
+    <section id="skills" className="shell section">
       <Reveal>
         <h2 className="text-label uppercase tracking-[0.12em] text-muted">
           Skills

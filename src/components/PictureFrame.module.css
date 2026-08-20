@@ -1,0 +1,178 @@
+.stage {
+  position: relative;
+  text-align: center;
+  perspective: 450px; /* smaller = more dramatic 3D foreshortening */
+  width: 208px;
+  max-width: 100%;
+}
+
+.nail {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.wire {
+  width: 143px;
+  height: 85px;
+  margin: -3px auto 0;
+  position: relative;
+}
+
+.wire svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+/*
+  THE KEY TRICK: pivot must be at the TOP of the swinging element
+  (where the nail is), not its center. transform-origin sets that.
+  The wire + frame swing together as one rigid unit around that point.
+*/
+.swingRig {
+  transform-origin: 50% 0%;
+  transform-style: preserve-3d;
+  animation: pf-swing 4.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/*
+  Pendulum easing: fast through the bottom of the arc, slow near the
+  top turnaround points — NOT a symmetric ease-in-out sine wave, which
+  reads as mechanical/robotic rather than gravity-driven.
+*/
+@keyframes pf-swing {
+  0% {
+    transform: rotateZ(3.5deg);
+  }
+  50% {
+    transform: rotateZ(-3.5deg);
+  }
+  100% {
+    transform: rotateZ(3.5deg);
+  }
+}
+
+/*
+  Twist lives on its own child element with its own, slower, duration
+  (7.5s vs the 4.2s swing) — a separate animation entirely, not just a
+  faster/slower phase of the same one, so the two motions drift in and
+  out of sync with each other rather than repeating in lockstep.
+*/
+.twistRig {
+  transform-style: preserve-3d;
+  animation: pf-twist 7.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+@keyframes pf-twist {
+  0% {
+    transform: rotateY(-6deg);
+  }
+  50% {
+    transform: rotateY(6deg);
+  }
+  100% {
+    transform: rotateY(-6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swingRig {
+    animation: none;
+    transform: rotate(0deg);
+  }
+  .twistRig {
+    animation: none;
+    transform: rotateY(0deg);
+  }
+}
+
+.frame {
+  width: 208px;
+  height: 247px;
+  max-width: 100%;
+  margin: -4px auto 0;
+  padding: 12px;
+  background: linear-gradient(155deg, #2b2b2b, #0d0d0d 70%);
+  border-radius: 3px;
+  position: relative;
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.15),
+    0 18px 30px -10px rgba(0, 0, 0, 0.35);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 15%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/*
+  Glare sweep: a flat surface rotating in Y is nearly imperceptible on
+  its own (no shading cue). This diagonal highlight slides side to
+  side in sync with the twist, mimicking how light would catch glass/
+  varnish differently as the frame turns — that's what actually makes
+  the rotation readable at a glance.
+*/
+.glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    75deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.35) 48%,
+    rgba(255, 255, 255, 0.08) 55%,
+    transparent 65%
+  );
+  animation: pf-glare-sweep 7.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  pointer-events: none;
+}
+
+@keyframes pf-glare-sweep {
+  0% {
+    transform: translateX(-25%);
+  }
+  50% {
+    transform: translateX(25%);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+/* Soft shadow behind the frame — moves opposite the swing for a touch
+   of extra realism (frame tilts one way, cast shadow shifts slightly
+   the other, like light isn't perfectly overhead) */
+.castShadow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 180px 240px at 50% 45%,
+    rgba(0, 0, 0, 0.12),
+    transparent 70%
+  );
+  animation: pf-shadow-shift 4.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes pf-shadow-shift {
+  0% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(-4px);
+  }
+}
