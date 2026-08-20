@@ -52,7 +52,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </p>
             <h1 className="text-display mt-4 font-medium">{project.title}</h1>
             {project.award ? (
-              <p className="text-label mt-4 inline-block rounded-full border border-accent px-3 py-1 uppercase tracking-[0.12em] text-accent">
+              <p
+                className={`text-label mt-4 inline-block rounded-full border px-3 py-1 uppercase tracking-[0.12em] ${
+                  project.awardColor === "blue"
+                    ? "border-badge-blue text-badge-blue"
+                    : "border-accent text-accent"
+                }`}
+              >
                 {project.award}
               </p>
             ) : null}
@@ -177,7 +183,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <dt className="text-label uppercase tracking-[0.12em] text-muted">
                     Result
                   </dt>
-                  <dd className="text-body mt-2 text-ink">{project.result}</dd>
+                  {Array.isArray(project.result) ? (
+                    <dd className="text-body mt-2 text-ink">
+                      <ul className="list-disc space-y-1 pl-5">
+                        {project.result.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </dd>
+                  ) : (
+                    <dd className="text-body mt-2 text-ink">{project.result}</dd>
+                  )}
                 </div>
               </dl>
 
@@ -202,11 +218,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
 
         {project.stack ? (
-          <section className="shell section rule">
+          <section className="shell section rule text-center">
             <p className="text-label uppercase tracking-[0.12em] text-muted">
               Tech stack
             </p>
-            <ul className="mt-8 flex flex-wrap gap-8">
+            <ul className="mt-8 flex flex-wrap justify-center gap-8">
               {project.stack.map((item) => (
                 <li key={item} className="flex flex-col items-center gap-3">
                   <span className="flex h-14 w-14 items-center justify-center rounded-sm border border-rule">

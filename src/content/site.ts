@@ -7,6 +7,8 @@ export type Project = {
   summary: string;
   /** Optional short badge shown near the title, e.g. an award or placement. */
   award?: string;
+  /** Badge color for `award`. Omit for the default accent (gold). */
+  awardColor?: "accent" | "blue";
   /** Optional. Omit and use `links` instead when a project reads better as
    *  a list of external links than a tag list (e.g. no discrete tools). */
   tools?: string[];
@@ -16,8 +18,9 @@ export type Project = {
   detail: string[];
   /** Optional numbered steps, shown under a "Process" label in smaller type. */
   process?: string[];
-  /** A concrete outcome — efficiency, latency, placement, size. */
-  result: string;
+  /** A concrete outcome — efficiency, latency, placement, size.
+   *  A string renders as one paragraph; a string array renders as bullets. */
+  result: string | string[];
   /** Optional external link, e.g. a repo. Omit if there is none. */
   href?: string;
   /** Square preview shown on hover in the work list, and on the project page.
@@ -131,6 +134,53 @@ const projects: Project[] = [
     ],
     image: "/vinpack-1.jpg",
     gallery: ["/vinpack-4-3d.png", "/vinpack-3-schematic.png", "/vinpack-2.jpg"],
+  },
+  {
+    id: "safety-alert-button",
+    title: "Safety Alert Button (SAB)",
+    year: "2025",
+    summary:
+      "A GPS-enabled emergency alert device that sends users live location to an emergency contact with the press of a button",
+    award: "2nd year Design Project (ELEC 290)",
+    awardColor: "blue",
+    tools: [
+      "Arduino",
+      "C++",
+      "GPS/Embedded Systems",
+      "IoT",
+      "Circuit Design",
+      "API Integration",
+    ],
+    detail: [
+      "Research shows that students who feel safe and secure on campus perform better academically.",
+      "Queen's campus itself is well-secured, but that security doesn't extend past the front gates.",
+      "In 2024 alone, Campus Security logged over 5,500 criminal, misconduct, and safety incidents on campus, and off-campus numbers are even higher.",
+      "Since most students live off campus, this project set out to give students, and their parents, greater peace of mind on the walk or drive home.",
+      "For ELEC 290, our 5-person team tackled this with SAB, a portable distress button. When held for three seconds, it sends the user's GPS coordinates and a Google Maps link straight to a designated emergency contact.",
+      "Switching to WiFi + webhook let the device piggyback on the user's phone hotspot, eliminating the need for a SIM card, cellular module, or companion app.",
+      "Testing exposed clear weak points: GPS accuracy dropped to 18% inside heavily shielded concrete buildings, and the email-to-SMS pathway we relied on is being phased out by most Canadian carriers. The next iteration would swap in a more accurate GPS module (SparkFun SAM-M10Q), move to a dedicated SMS service like Twilio, and migrate from breadboard to a compact PCB small enough to fit on a keychain.",
+    ],
+    process: [
+      "1. Trigger -> holding the momentary push button (INPUT_PULLUP, pin 7) for 3 seconds arms the alert, with a 5-second cooldown to block spam and an RGB LED giving status feedback.",
+      "2. Location -> the NEO-7M GPS module is polled via TinyGPSPlus for users location.",
+      "3. Transmission -> the Arduino Uno WiFi Rev 2 sends an HTTPS webhook request over WiFiNINA, piggybacking off the user's phone hotspot, straight to IFTTT.",
+      "4. Delivery -> IFTTT forwards the coordinates as an email-to-SMS message with a Google Maps link to the emergency contact's phone, and the blue LED confirms successful transmission.",
+    ],
+    result: [
+      "Sub-20-second alert delivery with a success rate above the 85% target on a stable connection",
+      "100% of outdoor GPS readings landed within 30 m (most within the 10 m goal), with 95% of outdoor trials achieving a fix in under 5 seconds",
+      "95% accuracy in standard buildings and 70% while in motion, across 30 trials in four environments",
+      "Built for under $100 CAD in prototype hardware, with a scaled BOM target of $20-30",
+    ],
+    hardware: [
+      "Arduino Uno WiFi Rev 2",
+      "NEO-7M GPS module",
+      "Momentary push button (INPUT_PULLUP, pin 7)",
+      "RGB LED with 220 ohm current-limiting resistors",
+    ],
+    stack: ["Arduino", "C++", "WiFiNINA", "TinyGPSPlus", "SoftwareSerial", "IFTTT"],
+    image: "/sab-1.png",
+    secondaryImage: "/sab-hardware.png",
   },
 ];
 

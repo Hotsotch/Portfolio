@@ -7,6 +7,7 @@
   --color-muted: #5e6e78;
   --color-rule: #e5eff2;
   --color-accent: #ffcb47;
+  --color-badge-blue: #3a86ff;
 
   /* Type — grotesk only, fluid scale */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;

@@ -12,6 +12,12 @@ export const techIcons: Record<string, string> = {
   Pydantic: "/icons/pydantic.svg",
   "Gmail SMTP": "/icons/gmail.svg",
   cron: "/icons/cron.svg",
+  Arduino: "/icons/arduino.svg",
+  "C++": "/icons/cplusplus.svg",
+  IFTTT: "/icons/ifttt.svg",
+  WiFiNINA: "/icons/wifinina.svg",
+  TinyGPSPlus: "/icons/tinygpsplus.svg",
+  SoftwareSerial: "/icons/softwareserial.svg",
 };
 
 const FALLBACK_ICON = "/icons/generic.svg";
